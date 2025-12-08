@@ -28,4 +28,9 @@ final Class UserRepositoryEloquent implements UserRepositoryInterface {
         
         return UserDTO::fromModel($user);
     }
+
+    public function findModelByEmail(string $email): User {
+        return User::where("email", $email)->first();
+    }
+
 }

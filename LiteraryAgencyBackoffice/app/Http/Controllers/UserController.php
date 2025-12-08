@@ -49,14 +49,15 @@ final class UserController extends Controller{
                 'password' => 'required|string',
             ]);
             
-            $user = $this->userRepository->findByEmail($request->email);
-
-            $data = $this->userService->login($request, $user);
+            $userModel = $this->userRepository->findModelByEmail($request->email);
+        
+            $data = $this->userService->login($request, $userModel);
 
             return response()->json($data);
 
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::error($th->getMessage());
+            throw $th;
         }
     }
 

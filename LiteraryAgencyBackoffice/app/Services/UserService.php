@@ -1,32 +1,52 @@
-<?php 
+<?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace App\Services;
 
 use App\DTOS\UserDTO;
+use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 
-final class UserService {
+final class UserService
+{
 
-    public function __construct(private UserRepositoryInterface $userRepository) {
+    public function __construct(private UserRepositoryInterface $userRepository)
+    {
     }
-    
-    public function create(UserDTO $DTO): UserDTO {
-        
+
+    /**
+     * Summary of create
+     * @param UserDTO $DTO
+     * @return UserDTO
+     */
+    public function create(UserDTO $DTO): UserDTO
+    {
         return $this->userRepository->create($DTO);
-
     }
 
-    public function login(object $request, UserDTO $DTO): array
+    /**
+     * Summary of login
+     * @param object $request
+     * @param User $userModel
+     * @throws \Exception
+     * @return array{token: string, user: UserDTO}
+     */
+    public function login(object $request, User $userModel): array
     {
 
-        if (!$DTO || !\Hash::check($request->password, $DTO->password)) {
+        if (!$userModel || !\Hash::check($request->password, $userModel->password)) {
             throw new \Exception('Invalid credentials', 401);
         }
 
-        // TO DO CREATE SESSION TOKEN
-        $token = $DTO->createToken('api-token')->accessToken;
+        $token = $userModel->createToken('api-token')->accessToken;
+
+        $DTO = new UserDTO(
+            $userModel->id,
+            $userModel->name,
+            $userModel->email,
+            null
+        );
 
         return [
             'user' => $DTO,
