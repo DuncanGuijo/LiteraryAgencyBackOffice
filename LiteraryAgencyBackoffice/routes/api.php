@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     //Agencies
     Route::post('createAgency',  [AgencyController::class,'create']);
     Route::post('updateAgency',  [AgencyController::class,'update']);
+    //Authors
+    Route::post('createAuthor',  [AuthorController::class,'create']);
+    Route::post('updateAuthor',  [AuthorController::class,'update']);
 });
