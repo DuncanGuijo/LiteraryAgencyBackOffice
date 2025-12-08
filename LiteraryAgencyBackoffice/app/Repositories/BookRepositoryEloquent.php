@@ -7,8 +7,6 @@ namespace App\Repositories;
 use App\DTOS\BookDTO;
 use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 
 final Class BookRepositoryEloquent implements BookRepositoryInterface {
 

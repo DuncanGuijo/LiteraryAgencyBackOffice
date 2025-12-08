@@ -1,0 +1,16 @@
+<?php 
+
+declare(strict_types=1);
+
+namespace App\Repositories;
+
+use App\DTOS\AgencyDTO;
+use App\Models\Agency;
+
+interface AgencyRepositoryInterface {
+    public function create(AgencyDTO $AgencyDTO): AgencyDTO;
+
+    public function find(int $id): AgencyDTO;
+
+    public function update(AgencyDTO $AgencyDTO): AgencyDTO;
+}
