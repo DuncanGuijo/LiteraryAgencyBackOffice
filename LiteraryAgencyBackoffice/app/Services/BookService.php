@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+use App\DTOS\BookDTO;
+use App\Models\Book;
+use App\Repositories\BookRepositoryInterface;
+use DB;
+
+final class BookService
+{
+
+    public function __construct(private BookRepositoryInterface $BookRepository)
+    {
+    }
+
+    /**
+     * Summary of create
+     * @param BookDTO $DTO
+     * @return BookDTO
+     */
+    public function create(BookDTO $DTO): BookDTO
+    {
+        return DB::transaction(function () use ($DTO) {
+            return $this->BookRepository->create($DTO);
+        });
+
+    }
+
+    /**
+     * Summary of update
+     * @param BookDTO $DTO
+     * @return BookDTO
+     */
+    public function update(BookDTO $DTO): BookDTO
+    {   
+        return DB::transaction(function () use ($DTO) {
+            return $this->BookRepository->update($DTO);
+    
+        });
+    }
+}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -16,6 +17,10 @@ Route::prefix('v1')->group(function () {
 
 // With Token
 Route::prefix('v1')->middleware(['auth:api'])->group(function () {
+    // Users
     Route::get('/user/{id}', [UserController::class, 'get']);
     Route::get('/logout', [UserController::class,'logout']);
+    // Books
+    Route::post('createBook',  [BookController::class,'create']);
+    Route::post('updateBook',  [BookController::class,'update']);
 });

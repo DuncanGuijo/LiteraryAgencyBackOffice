@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int|null     $author_id
  * @property array|null   $agencies_ids
  * @property array|null   $genres
- * @property bool         $is_active
+ * @property int          $is_active
+ * @property \Illuminate\Support\Carbon $publication_date
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -34,6 +35,7 @@ class Book extends Model
         'agencies_ids',
         'genres',
         'is_active',
+        'publication_date'
     ];
 
     protected $casts = [
@@ -46,6 +48,7 @@ class Book extends Model
         'created_at'    => 'datetime',
         'updated_at'    => 'datetime',
         'deleted_at'    => 'datetime',
+        'publication_date'  => 'datetime'
     ];
 
     public function author(): BelongsTo

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BookRepositoryEloquent;
+use App\Repositories\BookRepositoryInterface;
 use App\Repositories\UserRepositoryEloquent;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepositoryEloquent::class);
+        $this->app->bind(BookRepositoryInterface::class, BookRepositoryEloquent::class);
+
     }
 
     /**
