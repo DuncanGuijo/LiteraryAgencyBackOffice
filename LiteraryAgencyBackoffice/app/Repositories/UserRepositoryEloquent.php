@@ -33,4 +33,8 @@ final Class UserRepositoryEloquent implements UserRepositoryInterface {
         return User::where("email", $email)->first();
     }
 
+    public function findModelById(string $email): User {
+        return User::find($email);
+    }
+
 }

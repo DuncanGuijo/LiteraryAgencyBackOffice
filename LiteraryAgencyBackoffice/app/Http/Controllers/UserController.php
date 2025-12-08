@@ -17,6 +17,11 @@ final class UserController extends Controller{
         protected UserRepositoryInterface $userRepository
     ) {}
 
+    /**
+     * Summary of register
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function register(Request $request): JsonResponse 
     {
         try {
@@ -40,6 +45,11 @@ final class UserController extends Controller{
         
     }
 
+    /**
+     * Summary of login
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request): JsonResponse 
     {
         try {
@@ -54,6 +64,49 @@ final class UserController extends Controller{
             $data = $this->userService->login($request, $userModel);
 
             return response()->json($data);
+
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
+
+    /**
+     * Summary of logout
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse 
+    {
+        try {
+
+            $token = $request->user()->token();
+
+            $token->revoke();
+
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
+
+    /**
+     * Summary of get
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function get(Request $request, int $id): JsonResponse
+    {
+        try {
+            
+            $user = $this->userRepository->find( (int)$id);
+
+            return response()->json($user);
 
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
