@@ -41,4 +41,17 @@ final class BookService
     
         });
     }
+
+    /**
+     * Summary of delete
+     * @param int $id
+     * @return void
+     */
+
+    public function destroy(int $id): void
+    {
+        DB::transaction(function () use ($id) {
+            $this->BookRepository->delete($id);
+        });
+    }
 }

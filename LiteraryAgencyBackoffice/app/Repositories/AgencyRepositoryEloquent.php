@@ -58,4 +58,14 @@ final Class AgencyRepositoryEloquent implements AgencyRepositoryInterface {
         
         return $AgencyDTO;
     }
+
+    /**
+     * Summary of delete
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void {
+        $Agency = Agency::find($id);
+        $Agency->delete();
+    }
 }

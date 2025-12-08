@@ -114,4 +114,22 @@ final class UserController extends Controller{
         }
     }
 
+
+    /**
+     * Summary of update
+     * @param Request $request
+     * @param int $id
+     * @return void
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        try {
+           
+            // TO DO
+
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
 }

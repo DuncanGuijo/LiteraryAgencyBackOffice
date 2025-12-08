@@ -66,4 +66,9 @@ final Class BookRepositoryEloquent implements BookRepositoryInterface {
         
         return $BookDTO;
     }
+
+    public function delete(int $id): void {
+        $book = Book::find($id);
+        $book->delete();
+    }
 }

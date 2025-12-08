@@ -13,4 +13,6 @@ interface AgencyRepositoryInterface {
     public function find(int $id): AgencyDTO;
 
     public function update(AgencyDTO $AgencyDTO): AgencyDTO;
+
+    public function delete(int $id): void;
 }

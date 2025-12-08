@@ -58,4 +58,15 @@ final Class AuthorRepositoryEloquent implements AuthorRepositoryInterface {
         
         return $AuthorDTO;
     }
+
+    /**
+     * Summary of delete
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $author = Author::find($id);
+        $author->delete();
+    }
 }

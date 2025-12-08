@@ -40,4 +40,16 @@ final class AuthorService
     
         });
     }
+
+    /**
+     * Summary of delete
+     * @param int $id
+     * @return void
+     */
+    public function destroy(int $id): void
+    {
+        DB::transaction(function () use ($id) {
+            $this->AuthorRepository->delete($id);
+        });
+    }
 }

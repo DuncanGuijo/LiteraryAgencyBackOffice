@@ -87,6 +87,25 @@ final class BookController extends Controller
         }
     }
 
-   
+    /**
+     * Summary of destroy
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'id' => 'required|int'
+            ]);
+            
+            $this->BookService->destroy($request->id);
+            
+            return response()->json('Succesfuly', 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
 
 }

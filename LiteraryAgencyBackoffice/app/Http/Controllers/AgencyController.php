@@ -81,6 +81,27 @@ final class AgencyController extends Controller
         }
     }
 
-   
+    /**
+     * Summary of destroy
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        try {
+            
+            $request->validate([
+                'id'=> 'required|int'
+            ]);
+
+            $this->AgencyService->destroy($request->id);
+
+            return response()->json('Succesfuly', 200);
+            
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
 
 }

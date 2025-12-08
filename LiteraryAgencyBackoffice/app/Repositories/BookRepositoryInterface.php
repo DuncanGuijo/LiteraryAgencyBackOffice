@@ -13,4 +13,6 @@ interface BookRepositoryInterface {
     public function find(int $id): BookDTO;
 
     public function update(BookDTO $BookDTO): BookDTO;
+
+    public function delete(int $id): void;
 }

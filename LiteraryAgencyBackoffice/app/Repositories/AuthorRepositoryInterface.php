@@ -13,4 +13,6 @@ interface AuthorRepositoryInterface {
     public function find(int $id): AuthorDTO;
 
     public function update(AuthorDTO $AuthorDTO): AuthorDTO;
+
+    public function delete(int $id): void;
 }
