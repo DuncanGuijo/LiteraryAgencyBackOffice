@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -34,4 +35,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('createAuthor',  [AuthorController::class,'create']);
     Route::post('updateAuthor',  [AuthorController::class,'update']);
     Route::post('destroyBook',  [BookController::class,'destroy']);
+    //Genres
+    Route::post('createAuthor',  [GenreController::class,'create']);
+    Route::post('updateAuthor',  [GenreController::class,'update']);
+    Route::post('destroyBook',  [GenreController::class,'destroy']);
 });

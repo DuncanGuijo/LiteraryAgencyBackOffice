@@ -8,6 +8,8 @@ use App\Repositories\AuthorRepositoryEloquent;
 use App\Repositories\AuthorRepositoryInterface;
 use App\Repositories\BookRepositoryEloquent;
 use App\Repositories\BookRepositoryInterface;
+use App\Repositories\GenreRepositoryEloquent;
+use App\Repositories\GenreRepositoryInterface;
 use App\Repositories\UserRepositoryEloquent;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BookRepositoryInterface::class, BookRepositoryEloquent::class);
         $this->app->bind(AgencyRepositoryInterface::class, AgencyRepositoryEloquent::class);
         $this->app->bind(AuthorRepositoryInterface::class, AuthorRepositoryEloquent::class);
+        $this->app->bind(GenreRepositoryInterface::class,GenreRepositoryEloquent::class);
     }
 
     /**
