@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTOS\BookDetailDTO;
 use App\DTOS\BookDTO;
-use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 final class BookService
 {
@@ -53,5 +54,17 @@ final class BookService
         DB::transaction(function () use ($id) {
             $this->BookRepository->delete($id);
         });
+    }
+
+    /**
+     * Summary of getBookDetail
+     * @param int $id
+     * @return BookDetailDTO
+     */
+    public function getBookDetail(int $id): BookDetailDTO
+    {
+        $book = $this->BookRepository->findWithRelations($id, ['author', 'agencies', 'genres']);
+
+        return $book;
     }
 }

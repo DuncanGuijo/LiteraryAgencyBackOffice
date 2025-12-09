@@ -23,6 +23,7 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('createBook',  [BookController::class,'create']);
     Route::post('updateBook',  [BookController::class,'update']);
     Route::post('destroyBook',  [BookController::class,'destroy']);
+    Route::get('show', [BookController::class, 'show']);
     //Agencies
     Route::post('createAgency',  [AgencyController::class,'create']);
     Route::post('updateAgency',  [AgencyController::class,'update']);
@@ -34,5 +35,5 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     //Genres
     Route::post('createAuthor',  [GenreController::class,'create']);
     Route::post('updateAuthor',  [GenreController::class,'update']);
-    Route::post('destroyBook',  [GenreController::class,'destroy']);
+    Route::post('destroyBook',  [GenreController::class,'destroy']); 
 });

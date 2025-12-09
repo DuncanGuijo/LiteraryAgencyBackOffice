@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Services\BookService;
 use Illuminate\Support\Facades\Log;
+
 final class BookController extends Controller
 {
 
@@ -102,6 +103,29 @@ final class BookController extends Controller
             $this->BookService->destroy($request->id);
             
             return response()->json('Succesfuly', 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
+
+    /**
+     * Summary of show
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function show(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'id' => 'required|int'
+            ]);
+
+            log::info($request->id);
+            
+            $book = $this->BookService->getBookDetail($request->id);
+
+            return response()->json($book, 200);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             throw $th;

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DTOS\BookDetailDTO;
 use App\DTOS\BookDTO;
 use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 final Class BookRepositoryEloquent implements BookRepositoryInterface {
 
@@ -32,6 +34,21 @@ final Class BookRepositoryEloquent implements BookRepositoryInterface {
         
         return BookDTO::fromModel($Book);
     }
+
+    /**
+     * Get Book with their relations (author, agencies and genres)
+     * @param int $id
+     * @param array $relations
+     * @return BookDetailDTO
+     */
+    
+    public function findWithRelations(int $id, array $relations = []): BookDetailDTO {
+        
+        $BookDetail = Book::with($relations)->find($id);
+
+        return BookDetailDTO::fromModel($BookDetail);
+    }
+
     
     /**
      * @param BookDTO $dto
