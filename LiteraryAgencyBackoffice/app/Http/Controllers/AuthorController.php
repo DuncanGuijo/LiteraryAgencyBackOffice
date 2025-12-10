@@ -103,4 +103,23 @@ final class AuthorController extends Controller
         }
    }
 
+
+   public function index(Request $request): JsonResponse
+    {
+        try {
+            
+            $request->validate([
+                'pag' => 'nullable|int|min:1',
+                'perpage' => 'nullable|int|min:1'
+            ]);
+
+            $books = $this->AuthorService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+
+            return response()->json($books, 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
+
 }

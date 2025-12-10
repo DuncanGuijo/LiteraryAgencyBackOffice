@@ -18,4 +18,6 @@ interface BookRepositoryInterface {
     public function update(BookDTO $BookDTO): BookDTO;
 
     public function delete(int $id): void;
+
+    public function getPaginated(int $page, int $perpage): array;
 }

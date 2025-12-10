@@ -52,4 +52,11 @@ final class AuthorService
             $this->AuthorRepository->delete($id);
         });
     }
+
+    public function getPaginated(?int $page = 1, int $perPage = 15): array
+    {
+        $books = $this->AuthorRepository->getPaginated($page, $perPage);
+
+        return $books;
+    }
 }

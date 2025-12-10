@@ -52,4 +52,11 @@ final class GenreService
             $this->GenreRepository->delete($id);
         });
     }
+
+    public function getPaginated(?int $page = 1, int $perPage = 15): array
+    {
+        $books = $this->GenreRepository->getPaginated($page, $perPage);
+
+        return $books;
+    }
 }

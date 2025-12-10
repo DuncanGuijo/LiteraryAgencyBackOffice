@@ -68,4 +68,25 @@ final Class AgencyRepositoryEloquent implements AgencyRepositoryInterface {
         $Agency = Agency::find($id);
         $Agency->delete();
     }
+
+    public function getPaginated(int $page = 1, int $perPage = 15): array
+    {
+        $paginator = Agency::query()
+            ->with(['books', 'contracts'])
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $paginator->getCollection()
+            ->map(fn($agency) => AgencyDTO::fromModel($agency))
+            ->all();
+
+        return [
+            'data' => $data,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ],
+        ];
+    }
 }

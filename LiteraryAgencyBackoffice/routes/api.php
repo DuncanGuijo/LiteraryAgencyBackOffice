@@ -23,17 +23,21 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('createBook',  [BookController::class,'create']);
     Route::post('updateBook',  [BookController::class,'update']);
     Route::post('destroyBook',  [BookController::class,'destroy']);
-    Route::get('show', [BookController::class, 'show']);
+    Route::get('showBook', [BookController::class, 'show']);
+    Route::get('tableBooks',[BookController::class, 'index']);
     //Agencies
     Route::post('createAgency',  [AgencyController::class,'create']);
     Route::post('updateAgency',  [AgencyController::class,'update']);
-    Route::post('destroyBook',  [BookController::class,'destroy']);
+    Route::post('destroyAgency',  [AgencyController::class,'destroy']);
+    Route::get('tableAgencies',[AgencyController::class, 'index']);
     //Authors
     Route::post('createAuthor',  [AuthorController::class,'create']);
     Route::post('updateAuthor',  [AuthorController::class,'update']);
-    Route::post('destroyBook',  [BookController::class,'destroy']);
+    Route::post('destroyAuthor',  [AuthorController::class,'destroy']);
+    Route::get('tableAuthors',[AuthorController::class, 'index']);
     //Genres
-    Route::post('createAuthor',  [GenreController::class,'create']);
-    Route::post('updateAuthor',  [GenreController::class,'update']);
-    Route::post('destroyBook',  [GenreController::class,'destroy']); 
+    Route::post('createGenre',  [GenreController::class,'create']);
+    Route::post('updateGenre',  [GenreController::class,'update']);
+    Route::post('destroyGenre',  [GenreController::class,'destroy']);
+    Route::get('tableGenres',[GenreController::class, 'index']); 
 });

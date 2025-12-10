@@ -88,4 +88,25 @@ final Class BookRepositoryEloquent implements BookRepositoryInterface {
         $book = Book::find($id);
         $book->delete();
     }
+
+    public function getPaginated(int $page = 1, int $perPage = 15): array
+    {
+        $paginator = Book::query()
+            ->with(['author', 'agencies', 'genres'])
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $paginator->getCollection()
+            ->map(fn($book) => BookDTO::fromModel($book))
+            ->all();
+
+        return [
+            'data' => $data,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ],
+        ];
+    }
 }

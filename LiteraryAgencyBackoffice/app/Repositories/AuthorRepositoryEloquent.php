@@ -69,4 +69,25 @@ final Class AuthorRepositoryEloquent implements AuthorRepositoryInterface {
         $author = Author::find($id);
         $author->delete();
     }
+
+    public function getPaginated(int $page = 1, int $perPage = 15): array
+    {
+        $paginator = Author::query()
+            ->with(['books', 'contracts'])
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $paginator->getCollection()
+            ->map(fn($author) => AuthorDTO::fromModel($author))
+            ->all();
+
+        return [
+            'data' => $data,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ],
+        ];
+    }
 }

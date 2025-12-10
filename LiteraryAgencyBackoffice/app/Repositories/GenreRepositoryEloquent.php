@@ -65,4 +65,24 @@ final Class GenreRepositoryEloquent implements GenreRepositoryInterface {
         $Genre = Genre::find($id);
         $Genre->delete();
     }
+
+    public function getPaginated(int $page = 1, int $perPage = 15): array
+    {
+        $paginator = Genre::query()
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $paginator->getCollection()
+            ->map(fn($genre) => GenreDTO::fromModel($genre))
+            ->all();
+
+        return [
+            'data' => $data,
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ],
+        ];
+    }
 }

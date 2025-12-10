@@ -4,8 +4,12 @@ declare(strict_types= 1);
 
 namespace App\DTOS;
 
+use App\Models\Agency;
 use App\Models\Book;
+use App\Models\Genre;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+
 final readonly Class BookDetailDTO {
     public function __construct(
         public readonly int $id,
@@ -53,13 +57,13 @@ final readonly Class BookDetailDTO {
             ? AuthorDTO::fromModel($book->author)
             : null;
 
-        $agenciesDto = $book->relationLoaded('agencies') && $book->agencies
-            ? $book->agencies->map(fn($a) => AgencyDTO::fromModel($a))->all()
-            : [];
+        $agenciesModels = Agency::whereIn('id', $book->agencies_ids)->get();
+        
+        $agenciesDto = $agenciesModels->map(fn($a) => AgencyDTO::fromModel($a))->all();
 
-        $genresDto = $book->relationLoaded('genres') && $book->genres
-            ? $book->genres->map(fn($g) => GenreDTO::fromModel($g))->all()
-            : [];
+        $genresModels = Genre::whereIn('id', $book->genres)->get();
+
+        $genresDto = $genresModels->map(fn($g) => GenreDTO::fromModel($g))->all();
 
         return new self(
             $book->id ?? null,

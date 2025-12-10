@@ -15,4 +15,7 @@ interface GenreRepositoryInterface {
     public function update(GenreDTO $GenreDTO): GenreDTO;
 
     public function delete(int $id): void;
+
+    public function getPaginated(int $page, int $perpage): array;
+
 }

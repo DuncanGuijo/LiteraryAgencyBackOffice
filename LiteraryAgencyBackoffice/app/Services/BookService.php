@@ -67,4 +67,11 @@ final class BookService
 
         return $book;
     }
+
+    public function getPaginated(?int $page = 1, int $perPage = 15): array
+    {
+        $books = $this->BookRepository->getPaginated($page, $perPage);
+
+        return $books;
+    }
 }

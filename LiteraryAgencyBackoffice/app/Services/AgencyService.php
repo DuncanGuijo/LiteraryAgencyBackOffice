@@ -53,4 +53,11 @@ final class AgencyService
             $this->AgencyRepository->delete($id);
         });
     }
+
+    public function getPaginated(?int $page = 1, int $perPage = 15): array
+    {
+        $books = $this->AgencyRepository->getPaginated($page, $perPage);
+
+        return $books;
+    }
 }

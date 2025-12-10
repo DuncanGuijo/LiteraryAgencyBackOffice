@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\DTOS\AuthorDTO;
-use App\Models\Author;
 
 interface AuthorRepositoryInterface {
     public function create(AuthorDTO $AuthorDTO): AuthorDTO;
@@ -15,4 +14,7 @@ interface AuthorRepositoryInterface {
     public function update(AuthorDTO $AuthorDTO): AuthorDTO;
 
     public function delete(int $id): void;
+
+    public function getPaginated(int $page, int $perpage): array;
+
 }
