@@ -20,7 +20,7 @@ final class GenreController extends Controller
     }
 
     /**
-     * Summary of register
+     * Create a genre
      * @param Request $request
      * @return JsonResponse
      */
@@ -47,7 +47,7 @@ final class GenreController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update a genre
      * @param Request $request
      * @return JsonResponse
      */
@@ -76,7 +76,7 @@ final class GenreController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Soft delete of a genre
      * @param Request $request
      * @return JsonResponse
      */
@@ -98,6 +98,11 @@ final class GenreController extends Controller
         }
     }
 
+    /**
+     *  Get all the genres paginated
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         try {

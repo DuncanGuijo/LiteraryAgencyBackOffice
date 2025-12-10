@@ -20,7 +20,7 @@ final class AuthorController extends Controller
     }
 
     /**
-     * Summary of register
+     * Create an author
      * @param Request $request
      * @return JsonResponse
      */
@@ -50,7 +50,7 @@ final class AuthorController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update an author
      * @param Request $request
      * @return JsonResponse
      */
@@ -82,7 +82,7 @@ final class AuthorController extends Controller
     }
 
    /**
-    * Summary of destroy
+    * Soft delete of an author
     * @param Request $request
     * @return JsonResponse
     */
@@ -104,6 +104,11 @@ final class AuthorController extends Controller
    }
 
 
+   /**
+    *  Get all the authors with their relations paginated
+    * @param Request $request
+    * @return JsonResponse
+    */
    public function index(Request $request): JsonResponse
     {
         try {

@@ -20,7 +20,7 @@ final class AgencyController extends Controller
     }
 
     /**
-     * Summary of register
+     * Create an agency
      * @param Request $request
      * @return JsonResponse
      */
@@ -50,7 +50,7 @@ final class AgencyController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update an agency
      * @param Request $request
      * @return JsonResponse
      */
@@ -82,7 +82,7 @@ final class AgencyController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Soft delete of an agency
      * @param Request $request
      * @return JsonResponse
      */
@@ -104,6 +104,11 @@ final class AgencyController extends Controller
         }
     }
 
+    /**
+     *  Get all the agencies with their relations paginated
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         try {

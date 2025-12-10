@@ -21,7 +21,7 @@ final class BookController extends Controller
     }
 
     /**
-     * Summary of register
+     * Create a book
      * @param Request $request
      * @return JsonResponse
      */
@@ -54,7 +54,7 @@ final class BookController extends Controller
     }
 
     /**
-     * Summary of update
+     * Update a book
      * @param Request $request
      * @return JsonResponse
      */
@@ -89,7 +89,7 @@ final class BookController extends Controller
     }
 
     /**
-     * Summary of destroy
+     * Soft delete of a book
      * @param Request $request
      * @return JsonResponse
      */
@@ -110,7 +110,7 @@ final class BookController extends Controller
     }
 
     /**
-     * Summary of show
+     * Show a book with their relatiosn
      * @param Request $request
      * @return JsonResponse
      */
@@ -129,7 +129,12 @@ final class BookController extends Controller
             throw $th;
         }
     }
-    
+
+    /**
+     *  Get all the books with their relations paginated
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         try {

@@ -18,7 +18,7 @@ final class UserController extends Controller{
     ) {}
 
     /**
-     * Summary of register
+     * Register a user
      * @param Request $request
      * @return JsonResponse
      */
@@ -46,7 +46,7 @@ final class UserController extends Controller{
     }
 
     /**
-     * Summary of login
+     * Login
      * @param Request $request
      * @return JsonResponse
      */
@@ -72,7 +72,7 @@ final class UserController extends Controller{
     }
 
     /**
-     * Summary of logout
+     * Logout of the session
      * @param Request $request
      * @return JsonResponse
      */
@@ -95,7 +95,7 @@ final class UserController extends Controller{
     }
 
     /**
-     * Summary of get
+     * Get a user
      * @param Request $request
      * @param int $id
      * @return JsonResponse
