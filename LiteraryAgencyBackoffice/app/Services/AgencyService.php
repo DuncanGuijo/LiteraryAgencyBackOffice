@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTOS\AgencyDetailDTO;
 use App\DTOS\AgencyDTO;
 use App\Models\Agency;
 use App\Repositories\AgencyRepositoryInterface;
@@ -54,10 +55,20 @@ final class AgencyService
         });
     }
 
+    /**
+     * Get a AgencyDetailDTO by its id
+     * @param int $id
+     * @return AgencyDetailDTO
+     */
+    public function getAgencyDetail(int $id): AgencyDetailDTO
+    {
+        $agency = $this->AgencyRepository->findWithRelations($id, ['books']);
+
+        return $agency;
+    }
+
     public function getPaginated(?int $page = 1, int $perPage = 15): array
     {
-        $books = $this->AgencyRepository->getPaginated($page, $perPage);
-
-        return $books;
+        return $this->AgencyRepository->getPaginated($page, $perPage);
     }
 }

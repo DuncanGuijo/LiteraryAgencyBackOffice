@@ -127,4 +127,24 @@ final class AgencyController extends Controller
         }
     }
 
+    /**
+     * Get an agency with all their relations
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function show(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'id' => 'required|int'
+            ]);
+
+            $agency = $this->AgencyService->getAgencyDetail($request->id);
+
+            return response()->json($agency, 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
 }

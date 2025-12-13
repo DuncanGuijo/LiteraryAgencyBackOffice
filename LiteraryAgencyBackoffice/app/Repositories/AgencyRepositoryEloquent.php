@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DTOS\AgencyDetailDTO;
 use App\DTOS\AgencyDTO;
 use App\Models\Agency;
 use App\Repositories\AgencyRepositoryInterface;
@@ -89,4 +90,19 @@ final Class AgencyRepositoryEloquent implements AgencyRepositoryInterface {
             ],
         ];
     }
+
+    /**
+     * Get Agency with their relations (author, agencies and genres)
+     * @param int $id
+     * @param array $relations
+     * @return AgencyDetailDTO
+     */
+    
+    public function findWithRelations(int $id, array $relations = []): AgencyDetailDTO {
+                
+        $AgencyDetail = Agency::with($relations)->find($id);
+        
+        return AgencyDetailDTO::fromModel($AgencyDetail);
+    }
+
 }
