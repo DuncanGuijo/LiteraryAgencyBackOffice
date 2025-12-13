@@ -57,7 +57,7 @@ final class BookService
     }
 
     /**
-     * Summary of getBookDetail
+     * Get a BookDetailDTO by its id
      * @param int $id
      * @return BookDetailDTO
      */

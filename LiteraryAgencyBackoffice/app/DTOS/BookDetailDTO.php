@@ -18,9 +18,9 @@ final readonly Class BookDetailDTO {
         public readonly string $description,
         public readonly int $is_active,
         public readonly Carbon|null $publication_date,
-        public ?AuthorDTO $author,
-        public array $agencies,      // array<AgencyDTO>
-        public array $genres         // array<GenreDTO>
+        public readonly ?AuthorDTO $author,
+        public readonly array $agencies,      // array<AgencyDTO>
+        public readonly array $genres         // array<GenreDTO>
     ){}
 
     public static function fromArray(array $data): self
@@ -37,6 +37,7 @@ final readonly Class BookDetailDTO {
             $data['genres']
         );
     }
+    
     public function toArray() : array {
         return [
             'id'           => $this->id,
