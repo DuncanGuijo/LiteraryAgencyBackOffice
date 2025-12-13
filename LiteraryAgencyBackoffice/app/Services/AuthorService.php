@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DTOS\AuthorDetailDTO;
 use App\DTOS\AuthorDTO;
 use App\Repositories\AuthorRepositoryInterface;
 use DB;
@@ -58,5 +59,15 @@ final class AuthorService
         $books = $this->AuthorRepository->getPaginated($page, $perPage);
 
         return $books;
+    }
+
+    /**
+     * Get a AuthorDetailDTO by its id
+     * @param int $id
+     * @return AuthorDetailDTO
+     */
+    public function getAuthorDetail(int $id): AuthorDetailDTO
+    {
+        return $this->AuthorRepository->findWithRelations($id, ['books']);
     }
 }

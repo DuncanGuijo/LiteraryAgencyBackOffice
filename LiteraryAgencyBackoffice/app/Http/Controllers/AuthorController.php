@@ -127,4 +127,21 @@ final class AuthorController extends Controller
         }
     }
 
+    public function show(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'id'=> 'required|int'
+            ]);
+
+            $author = $this->AuthorService->getAuthorDetail($request->id);
+
+            return response()->json($author, 200);
+
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            throw $th;
+        }
+    }
+
 }

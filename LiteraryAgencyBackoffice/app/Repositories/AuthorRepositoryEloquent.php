@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DTOS\AuthorDetailDTO;
 use App\DTOS\AuthorDTO;
 use App\Models\Author;
 use App\Repositories\AuthorRepositoryInterface;
@@ -89,5 +90,19 @@ final Class AuthorRepositoryEloquent implements AuthorRepositoryInterface {
                 'last_page' => $paginator->lastPage(),
             ],
         ];
+    }
+
+    /**
+     * Get Author with their relations (books, contracts)
+     * @param int $id
+     * @param array $relations
+     * @return AuthorDetailDTO
+     */
+
+    public function findWithRelations(int $id, array $relations = []): AuthorDetailDTO {
+                
+        $AuthorDetail = Author::with($relations)->find($id);
+        
+        return AuthorDetailDTO::fromModel($AuthorDetail);
     }
 }
