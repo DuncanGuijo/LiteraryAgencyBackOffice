@@ -29,11 +29,13 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
     Route::post('createAgency',  [AgencyController::class,'create']);
     Route::post('updateAgency',  [AgencyController::class,'update']);
     Route::post('destroyAgency',  [AgencyController::class,'destroy']);
+    Route::get('showAgency', [AgencyController::class, 'show']);
     Route::get('tableAgencies',[AgencyController::class, 'index']);
     //Authors
     Route::post('createAuthor',  [AuthorController::class,'create']);
     Route::post('updateAuthor',  [AuthorController::class,'update']);
     Route::post('destroyAuthor',  [AuthorController::class,'destroy']);
+    Route::get('showAuthor', [AuthorController::class, 'show']);
     Route::get('tableAuthors',[AuthorController::class, 'index']);
     //Genres
     Route::post('createGenre',  [GenreController::class,'create']);
