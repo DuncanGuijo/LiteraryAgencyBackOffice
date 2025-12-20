@@ -1,3 +1,9 @@
+import { http } from '@/api/http';
+import type { LoginDTO } from '@/domains/users/dtos/LoginDTO';
+import type { LoginResponseDTO } from '@/domains/users/dtos/LoginResponseDTO';
+
 export class UserService {
-  // placeholder service
+  static async login(payload: LoginDTO): Promise<LoginResponseDTO> {
+    return http.post<LoginResponseDTO>('/v1/login', payload);
+  }
 }

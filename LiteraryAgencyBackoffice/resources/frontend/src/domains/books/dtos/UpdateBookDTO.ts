@@ -1,3 +1,5 @@
-export class UpdateBookDTO {
-  constructor(public id?: number, public title?: string) {}
+import type { CreateBookDTO } from '@/domains/books/dtos/CreateBookDTO';
+
+export interface UpdateBookDTO extends Partial<CreateBookDTO> {
+  id: number;
 }
