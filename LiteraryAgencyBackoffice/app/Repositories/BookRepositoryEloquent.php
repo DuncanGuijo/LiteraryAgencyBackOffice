@@ -41,10 +41,9 @@ final Class BookRepositoryEloquent implements BookRepositoryInterface {
      * @param array $relations
      * @return BookDetailDTO
      */
-    
     public function findWithRelations(int $id, array $relations = []): BookDetailDTO {
         
-        $BookDetail = Book::with($relations)->find($id);
+        $BookDetail = Book::with($relations)->findOrFail($id);
 
         return BookDetailDTO::fromModel($BookDetail);
     }

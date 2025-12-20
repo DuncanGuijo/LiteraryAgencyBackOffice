@@ -101,7 +101,7 @@ final Class AuthorRepositoryEloquent implements AuthorRepositoryInterface {
 
     public function findWithRelations(int $id, array $relations = []): AuthorDetailDTO {
                 
-        $AuthorDetail = Author::with($relations)->find($id);
+        $AuthorDetail = Author::with($relations)->findOrFail($id);
         
         return AuthorDetailDTO::fromModel($AuthorDetail);
     }

@@ -100,7 +100,7 @@ final Class AgencyRepositoryEloquent implements AgencyRepositoryInterface {
     
     public function findWithRelations(int $id, array $relations = []): AgencyDetailDTO {
                 
-        $AgencyDetail = Agency::with($relations)->find($id);
+        $AgencyDetail = Agency::with($relations)->findOrFail($id);
         
         return AgencyDetailDTO::fromModel($AgencyDetail);
     }
