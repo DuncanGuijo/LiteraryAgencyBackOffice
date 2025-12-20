@@ -18,13 +18,7 @@ final Class UserRepositoryEloquent implements UserRepositoryInterface {
     }
 
     public function find(int $id): UserDTO {
-        $user = User::find($id);
-        
-        return UserDTO::fromModel($user);
-    }
-
-    public function findByEmail(string $email): UserDTO {
-        $user = User::where("email", $email)->first();
+        $user = User::findOrFail($id);
         
         return UserDTO::fromModel($user);
     }
@@ -32,9 +26,4 @@ final Class UserRepositoryEloquent implements UserRepositoryInterface {
     public function findModelByEmail(string $email): User {
         return User::where("email", $email)->first();
     }
-
-    public function findModelById(string $email): User {
-        return User::find($email);
-    }
-
 }
