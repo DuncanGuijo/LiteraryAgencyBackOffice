@@ -26,24 +26,17 @@ final class GenreController extends Controller
      */
     public function create(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'name' => 'required|string',
+            'is_active' => 'int'
+        ]);
 
-            $request->validate([
-                'name' => 'required|string',
-                'is_active' => 'int'
-            ]);
+        $data = $request->all();
+        $genreDTO = GenreDTO::fromArray($data);
 
-            $data = $request->all();
-            $genreDTO = GenreDTO::fromArray($data);
+        $genre = $this->GenreService->create($genreDTO);
 
-            $genre = $this->GenreService->create($genreDTO);
-
-            return response()->json($genre, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($genre, 201);
     }
 
     /**
@@ -53,26 +46,19 @@ final class GenreController extends Controller
      */
     public function update(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'id' => 'required|int',
+            'name' => 'required|string',
+            'is_active' => 'int'
+        ]);
 
-            $request->validate([
-                'id' => 'required|int',
-                'name' => 'required|string',
-                'is_active' => 'int'
-            ]);
+        $data = $request->all();
 
-            $data = $request->all();
+        $genreDTO = GenreDTO::fromArray($data);
+        
+        $genre = $this->GenreService->update($genreDTO);
 
-            $genreDTO = GenreDTO::fromArray($data);
-            
-            $genre = $this->GenreService->update($genreDTO);
-
-            return response()->json($genre, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($genre, 201);
     }
 
     /**
@@ -82,20 +68,13 @@ final class GenreController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        try {
-            
-            $request->validate([
-                'id'=> 'required|int'
-            ]);
+        $request->validate([
+            'id'=> 'required|int'
+        ]);
 
-            $this->GenreService->destroy($request->id);
+        $this->GenreService->destroy($request->id);
 
-            return response()->json('Succesfuly', 200);
-            
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json('Succesfuly', 200);
     }
 
     /**
@@ -105,20 +84,14 @@ final class GenreController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        try {
-            
-            $request->validate([
-                'pag' => 'nullable|int|min:1',
-                'perpage' => 'nullable|int|min:1'
-            ]);
+        $request->validate([
+            'pag' => 'nullable|int|min:1',
+            'perpage' => 'nullable|int|min:1'
+        ]);
 
-            $books = $this->GenreService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+        $books = $this->GenreService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
 
-            return response()->json($books, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($books, 200);
     }
 
 }

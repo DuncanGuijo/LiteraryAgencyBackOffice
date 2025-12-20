@@ -24,24 +24,17 @@ final class UserController extends Controller{
      */
     public function register(Request $request): JsonResponse 
     {
-        try {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
 
-            $request->validate([
-                'name' => 'required|string',
-                'email' => 'required|email|unique:users',
-                'password' => 'required|string|min:6',
-            ]);
+        $DTO = new UserDTO(null, $request->name, $request->email, $request->password);
 
-            $DTO = new UserDTO(null, $request->name, $request->email, $request->password);
+        $user = $this->userService->create($DTO);
 
-            $user = $this->userService->create($DTO);
-
-            return response()->json($user, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($user, 201);
         
     }
 
@@ -52,23 +45,16 @@ final class UserController extends Controller{
      */
     public function login(Request $request): JsonResponse 
     {
-        try {
-            
-            $request->validate([
-                'email' => 'required|email',
-                'password' => 'required|string',
-            ]);
-            
-            $userModel = $this->userRepository->findModelByEmail($request->email);
-        
-            $data = $this->userService->login($request, $userModel);
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-            return response()->json($data);
+        $userModel = $this->userRepository->findModelByEmail($request->email);
+    
+        $data = $this->userService->login($request, $userModel);
 
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($data);
     }
 
     /**
@@ -78,20 +64,13 @@ final class UserController extends Controller{
      */
     public function logout(Request $request): JsonResponse 
     {
-        try {
+        $token = $request->user()->token();
 
-            $token = $request->user()->token();
+        $token->revoke();
 
-            $token->revoke();
-
-            return response()->json([
-                'message' => 'Successfully logged out'
-            ]);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 
     /**
@@ -102,16 +81,9 @@ final class UserController extends Controller{
      */
     public function get(Request $request, int $id): JsonResponse
     {
-        try {
-            
-            $user = $this->userRepository->find( (int)$id);
+        $user = $this->userRepository->find( (int)$id);
 
-            return response()->json($user);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($user);
     }
 
 
@@ -123,13 +95,6 @@ final class UserController extends Controller{
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        try {
-           
-            // TO DO
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        // TO DO
     }
 }

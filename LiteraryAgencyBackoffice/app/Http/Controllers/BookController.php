@@ -9,7 +9,6 @@ use App\Repositories\BookRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Services\BookService;
-use Illuminate\Support\Facades\Log;
 
 final class BookController extends Controller
 {
@@ -27,30 +26,23 @@ final class BookController extends Controller
      */
     public function create(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'title' => 'required|string',
+            'isbn' => 'nullable|string',
+            'description' => 'nullable|string',
+            'author_id' => 'nullable|int',
+            'agencies_ids' => 'nullable|array',
+            'genres' => 'nullable|array',
+            'is_active' => 'int',
+            'publication_date' => 'nullable|date_format:Y-m-d'
+        ]);
 
-            $request->validate([
-                'title' => 'required|string',
-                'isbn' => 'nullable|string',
-                'description' => 'nullable|string',
-                'author_id' => 'nullable|int',
-                'agencies_ids' => 'nullable|array',
-                'genres' => 'nullable|array',
-                'is_active' => 'int',
-                'publication_date' => 'nullable|date_format:Y-m-d'
-            ]);
+        $data = $request->all();
+        $bookDTO = BookDTO::fromArray($data);
 
-            $data = $request->all();
-            $bookDTO = BookDTO::fromArray($data);
+        $book = $this->BookService->create($bookDTO);
 
-            $book = $this->BookService->create($bookDTO);
-
-            return response()->json($book, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($book, 201);
     }
 
     /**
@@ -60,32 +52,25 @@ final class BookController extends Controller
      */
     public function update(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'id' => 'required|int',
+            'title' => 'required|string',
+            'isbn' => 'nullable|string',
+            'description' => 'nullable|string',
+            'author_id' => 'nullable|int',
+            'agencies_ids' => 'nullable|array',
+            'genres' => 'nullable|array',
+            'is_active' => 'int',
+            'publication_date' => 'nullable|date_format:Y-m-d'
+        ]);
 
-            $request->validate([
-                'id' => 'required|int',
-                'title' => 'required|string',
-                'isbn' => 'nullable|string',
-                'description' => 'nullable|string',
-                'author_id' => 'nullable|int',
-                'agencies_ids' => 'nullable|array',
-                'genres' => 'nullable|array',
-                'is_active' => 'int',
-                'publication_date' => 'nullable|date_format:Y-m-d'
-            ]);
+        $data = $request->all();
 
-            $data = $request->all();
+        $bookDTO = BookDTO::fromArray($data);
+        
+        $book = $this->BookService->update($bookDTO);
 
-            $bookDTO = BookDTO::fromArray($data);
-            
-            $book = $this->BookService->update($bookDTO);
-
-            return response()->json($book, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($book, 201);
     }
 
     /**
@@ -95,39 +80,25 @@ final class BookController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        try {
-            $request->validate([
-                'id' => 'required|int'
-            ]);
-            
-            $this->BookService->destroy($request->id);
-            
-            return response()->json('Succesfuly', 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        $request->validate([
+            'id' => 'required|int'
+        ]);
+        
+        $this->BookService->destroy($request->id);
+        
+        return response()->json('Succesfuly', 200);
     }
 
     /**
      * Show a book with their relatiosn
-     * @param Request $request
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(Request $request): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        try {
-            $request->validate([
-                'id' => 'required|int'
-            ]);
-            
-            $book = $this->BookService->getBookDetail($request->id);
+        $book = $this->BookService->getBookDetail($id);
 
-            return response()->json($book, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($book, 200);
     }
 
     /**
@@ -136,21 +107,15 @@ final class BookController extends Controller
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
-    {
-        try {
-            
-            $request->validate([
-                'pag' => 'nullable|int|min:1',
-                'perpage' => 'nullable|int|min:1'
-            ]);
+    {  
+        $request->validate([
+            'pag' => 'nullable|int|min:1',
+            'perpage' => 'nullable|int|min:1'
+        ]);
 
-            $books = $this->BookService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+        $books = $this->BookService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
 
-            return response()->json($books, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($books, 200);
     }
 
 }

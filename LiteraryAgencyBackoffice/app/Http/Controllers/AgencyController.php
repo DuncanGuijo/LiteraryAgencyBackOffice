@@ -26,27 +26,20 @@ final class AgencyController extends Controller
      */
     public function create(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'is_active' => 'int'
+        ]);
 
-            $request->validate([
-                'name' => 'required|string',
-                'email' => 'nullable|string',
-                'phone' => 'nullable|string',
-                'address' => 'nullable|string',
-                'is_active' => 'int'
-            ]);
+        $data = $request->all();
+        $agencyDTO = AgencyDTO::fromArray($data);
 
-            $data = $request->all();
-            $agencyDTO = AgencyDTO::fromArray($data);
+        $agency = $this->AgencyService->create($agencyDTO);
 
-            $agency = $this->AgencyService->create($agencyDTO);
-
-            return response()->json($agency, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($agency, 201);
     }
 
     /**
@@ -56,29 +49,22 @@ final class AgencyController extends Controller
      */
     public function update(Request $request): JsonResponse
     {
-        try {
+        $request->validate([
+            'id' => 'required|int',
+            'name' => 'required|string',
+            'email' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'is_active' => 'int'
+        ]);
 
-            $request->validate([
-                'id' => 'required|int',
-                'name' => 'required|string',
-                'email' => 'nullable|string',
-                'phone' => 'nullable|string',
-                'address' => 'nullable|string',
-                'is_active' => 'int'
-            ]);
+        $data = $request->all();
 
-            $data = $request->all();
+        $agencyDTO = AgencyDTO::fromArray($data);
+        
+        $agency = $this->AgencyService->update($agencyDTO);
 
-            $agencyDTO = AgencyDTO::fromArray($data);
-            
-            $agency = $this->AgencyService->update($agencyDTO);
-
-            return response()->json($agency, 201);
-
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($agency, 201);
     }
 
     /**
@@ -88,20 +74,13 @@ final class AgencyController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        try {
-            
-            $request->validate([
-                'id'=> 'required|int'
-            ]);
+        $request->validate([
+            'id'=> 'required|int'
+        ]);
 
-            $this->AgencyService->destroy($request->id);
+        $this->AgencyService->destroy($request->id);
 
-            return response()->json('Succesfuly', 200);
-            
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json('Succesfuly', 200);
     }
 
     /**
@@ -111,40 +90,25 @@ final class AgencyController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        try {
-            
-            $request->validate([
-                'pag' => 'nullable|int|min:1',
-                'perpage' => 'nullable|int|min:1'
-            ]);
+        $request->validate([
+            'pag' => 'nullable|int|min:1',
+            'perpage' => 'nullable|int|min:1'
+        ]);
 
-            $books = $this->AgencyService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+        $books = $this->AgencyService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
 
-            return response()->json($books, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($books, 200);
     }
 
     /**
      * Get an agency with all their relations
-     * @param Request $request
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(Request $request): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        try {
-            $request->validate([
-                'id' => 'required|int'
-            ]);
+        $agency = $this->AgencyService->getAgencyDetail($id);
 
-            $agency = $this->AgencyService->getAgencyDetail($request->id);
-
-            return response()->json($agency, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            throw $th;
-        }
+        return response()->json($agency, 200);
     }
 }
