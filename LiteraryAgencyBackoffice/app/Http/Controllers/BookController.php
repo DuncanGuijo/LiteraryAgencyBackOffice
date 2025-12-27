@@ -108,6 +108,8 @@ final class BookController extends Controller
      */
     public function index(Request $request): JsonResponse
     {  
+        \Log::info('hei there');
+
         $request->validate([
             'pag' => 'nullable|int|min:1',
             'perpage' => 'nullable|int|min:1'

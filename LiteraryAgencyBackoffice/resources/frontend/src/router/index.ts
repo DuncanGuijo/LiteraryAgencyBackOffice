@@ -4,6 +4,7 @@ import BooksList from '@/domains/books/views/BooksList.vue';
 import AgenciesList from '@/domains/agencies/views/AgenciesList.vue';
 import GenresList from '@/domains/genres/views/GenresList.vue';
 import Login from '@/domains/users/views/Login.vue';
+import Register from '@/domains/users/views/Register.vue';
 
 const routes = [
   { 
@@ -11,9 +12,14 @@ const routes = [
     name: 'Login',
     component: Login
   },
+  { 
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
   {
     path: '/',
-    redirect: '/books',
+    redirect: '/login',
   },
   {
     path: '/books',
