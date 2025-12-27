@@ -1,31 +1,36 @@
-import { http } from '@/api/http';
-import type { BookDTO } from '@/domains/books/dtos/BookDTO';
-import type { CreateBookDTO } from '@/domains/books/dtos/CreateBookDTO';
-import type { UpdateBookDTO } from '@/domains/books/dtos/UpdateBookDTO';
-import { mapBook } from '@/domains/books/mappers/book.mapper';
+import type { BookDTO } from '@/domains/books/dtos/BookDTO'
+import { http } from '@/api/http'
+
+export interface PaginatedBooks {
+  data: BookDTO[]
+  meta: {
+    current_page: number
+    per_page: number
+    total: number
+    last_page: number
+  }
+}
 
 export class BookService {
-  static async list(): Promise<BookDTO[]> {
-    const data = await http.get<BookDTO[]>('v1/books');
-    return data.map(mapBook);
+  static async getBooks(page = 1, perPage = 5): Promise<PaginatedBooks> {
+    return http.get<PaginatedBooks>('/books', {
+      params: { page: page, perpage: perPage },
+    } as any)
   }
 
-  static async get(id: number): Promise<BookDTO> {
-    const data = await http.get<BookDTO>(`/books/${id}`);
-    return mapBook(data);
+  static async getBook(id: number): Promise<BookDTO> {
+    return http.get<BookDTO>(`/books/${id}`)
   }
 
-  static async create(payload: CreateBookDTO): Promise<BookDTO> {
-    const data = await http.post<BookDTO>('/books', payload);
-    return mapBook(data);
+  static async createBook(payload: Partial<BookDTO>): Promise<BookDTO> {
+    return http.post<BookDTO>('/books', payload)
   }
 
-  static async update(id: number, payload: UpdateBookDTO): Promise<BookDTO> {
-    const data = await http.put<BookDTO>(`/books/${id}`, payload);
-    return mapBook(data);
+  static async updateBook(id: number, payload: Partial<BookDTO>): Promise<BookDTO> {
+    return http.put<BookDTO>(`/books/${id}`, payload)
   }
 
-  static async delete(id: number): Promise<void> {
-    await http.delete(`/books/${id}`);
+  static async deleteBook(id: number): Promise<void> {
+    return http.delete(`/books/${id}`)
   }
 }
