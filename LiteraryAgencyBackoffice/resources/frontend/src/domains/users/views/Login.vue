@@ -77,7 +77,7 @@ async function onSubmit(): Promise<void> {
   loading.value = true
   try {
     const response = await UserService.login({ ...form })
-    localStorage.setItem('token', response.token)
+    localStorage.setItem('auth_token', response.token)
     // Redirigir a página principal de la app
     router.push('/dashboard')
   } catch (err: any) {
