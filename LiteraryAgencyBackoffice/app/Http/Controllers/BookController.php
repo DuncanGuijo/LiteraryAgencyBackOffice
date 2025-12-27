@@ -108,14 +108,13 @@ final class BookController extends Controller
      */
     public function index(Request $request): JsonResponse
     {  
-        \Log::info('hei there');
 
         $request->validate([
             'pag' => 'nullable|int|min:1',
             'perpage' => 'nullable|int|min:1'
         ]);
 
-        $books = $this->BookService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+        $books = $this->BookService->getPaginated((int) $request->pag ?? 1, (int) $request->perpage ?? 15);
 
         return response()->json($books, 200);
     }
