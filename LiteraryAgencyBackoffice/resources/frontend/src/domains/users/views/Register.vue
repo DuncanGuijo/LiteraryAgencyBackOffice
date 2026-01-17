@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
 import { reactive, computed, ref } from 'vue'
-import AuthLayout from '@/domains/layouts/AuthLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
 import { http } from '@/api/http'
 import { useRouter } from 'vue-router'
 
@@ -123,7 +123,7 @@ async function onSubmit(): Promise<void> {
   loading.value = true
   try {
     const payload = { ...form }
-    await http.post('/v1/register', payload)
+    await http.post('/register', payload)
     successMessage.value = 'Registration successful! Redirecting to login...'
     setTimeout(() => {
     router.push({ path: '/login', query: { successMessage: 'Registration successful! Please log in.' } })

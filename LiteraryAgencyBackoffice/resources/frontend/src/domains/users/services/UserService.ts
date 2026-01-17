@@ -4,6 +4,6 @@ import type { LoginResponseDTO } from '@/domains/users/dtos/LoginResponseDTO';
 
 export class UserService {
   static async login(payload: LoginDTO): Promise<LoginResponseDTO> {
-    return http.post<LoginResponseDTO>('/v1/login', payload);
+    return http.post<LoginResponseDTO>('/login', payload);
   }
 }

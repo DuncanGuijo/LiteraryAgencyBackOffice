@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { reactive, computed, ref } from 'vue'
-import AuthLayout from '@/domains/layouts/AuthLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
 import { UserService } from '@/domains/users/services/UserService'
 import type { LoginDTO } from '@/domains/users/dtos/LoginDTO'
 import { useRouter } from 'vue-router'

@@ -1,51 +1,40 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
+import AppLayout from '@/layouts/AppLayout.vue';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+
 import BooksList from '@/domains/books/views/BooksList.vue';
-// import AuthorsList from '@/domains/authors/views/AuthorsList.vue';
 import AgenciesList from '@/domains/agencies/views/AgenciesList.vue';
 import GenresList from '@/domains/genres/views/GenresList.vue';
+
 import Login from '@/domains/users/views/Login.vue';
 import Register from '@/domains/users/views/Register.vue';
 
 const routes = [
-  { 
-    path: '/login',
-    name: 'Login',
-    component: Login
+  {
+    path: '/auth',
+    component: AuthLayout,
+    children: [
+      { path: 'login', name: 'Login', component: Login },
+      { path: 'register', name: 'Register', component: Register },
+    ],
   },
-  { 
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
+
   {
     path: '/',
-    redirect: '/login',
+    component: AppLayout,
+    children: [
+      { path: '', redirect: '/books' },
+      { path: 'books', name: 'BooksList', component: BooksList },
+      { path: 'agencies', name: 'AgenciesList', component: AgenciesList },
+      { path: 'genres', name: 'GenresList', component: GenresList },
+    ],
   },
-  {
-    path: '/books',
-    name: 'BooksList',
-    component: BooksList,
-  },
-/*   {
-    path: '/authors',
-    name: 'AuthorsList',
-    component: AuthorsList,
-  }, */
-  {
-    path: '/agencies',
-    name: 'AgenciesList',
-    component: AgenciesList,
-  },
-  {
-    path: '/genres',
-    name: 'GenresList',
-    component: GenresList,
-  },
+
+  { path: '/:pathMatch(.*)*', redirect: '/auth/login' },
 ];
 
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
   routes,
 });
-
-export default router;

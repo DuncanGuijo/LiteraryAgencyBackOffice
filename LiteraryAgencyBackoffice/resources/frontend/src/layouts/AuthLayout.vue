@@ -6,7 +6,7 @@
         Literary Agency
       </h1>
       <p class="mt-4 text-slate-300 max-w-md">
-        Plataforma interna de gestión editorial y contractual
+        Internal platform for editorial and contractual management
       </p>
     </div>
 
