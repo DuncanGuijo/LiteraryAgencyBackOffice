@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SignUpRequest;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -22,14 +24,8 @@ final class UserController extends Controller{
      * @param Request $request
      * @return JsonResponse
      */
-    public function register(Request $request): JsonResponse 
+    public function register(SignUpRequest $request): JsonResponse 
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
-
         $DTO = new UserDTO(null, $request->name, $request->email, $request->password);
 
         $user = $this->userService->create($DTO);
@@ -43,12 +39,8 @@ final class UserController extends Controller{
      * @param Request $request
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse 
+    public function login(LoginRequest $request): JsonResponse 
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
 
         $userModel = $this->userRepository->findModelByEmail($request->email);
     
