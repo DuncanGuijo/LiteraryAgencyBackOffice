@@ -1,11 +1,12 @@
 <template>
-  <div class="user-avatar">
+  <div class="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 cursor-pointer">
     <img
       v-if="user?.avatarUrl"
       :src="user.avatarUrl"
       alt="User avatar"
+      class="w-full h-full object-cover"
     />
-    <div v-else class="avatar-placeholder">
+    <div v-else>
       {{ initials }}
     </div>
   </div>
@@ -26,17 +27,3 @@ const initials = computed(() =>
     .join('')
 )
 </script>
-
-<style scoped>
-.user-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-</style>
