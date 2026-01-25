@@ -33,6 +33,18 @@ const routes = [
     ],
   },
 
+  {
+    path: '/profile',
+    component: AppLayout,
+    children: [
+      {
+        path: '',
+        name: 'Profile',
+        component: () => import('@/domains/users/views/Profile.vue'),
+      },
+    ],
+  },
+
   { path: '/:pathMatch(.*)*', redirect: '/auth/login' },
 ];
 

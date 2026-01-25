@@ -4,5 +4,6 @@ export interface LoginResponseDTO {
     id: number;
     name: string;
     email: string;
+    avatarFile: string | null;
   };
 }

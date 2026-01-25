@@ -1,6 +1,6 @@
-import type { UserDTO } from "@/domains/users/dtos/UserDTO";
-import { defineStore } from "pinia";
-import axios from "axios";
+import { defineStore } from 'pinia';
+import { UserService } from '@/domains/users/services/UserService';
+import type { UserDTO } from '@/domains/users/dtos/UserDTO';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -13,25 +13,25 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    setToken(token: string) {
+    setAuth(token: string, user: UserDTO) {
       this.token = token;
-      localStorage.setItem('auth_token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    },
-
-    setUser(user: UserDTO) {
       this.user = user;
+      localStorage.setItem('auth_token', token);
     },
 
     async logout() {
       try {
-        if (this.token) await axios.post('/logout');
+        if (this.token) {
+          console.log('AuthStore: Logging out user');
+          await UserService.logout();
+        }
+      } catch (e) {
+        console.warn('Logout failed, clearing local session anyway');
       } finally {
         this.token = '';
         this.user = null;
         localStorage.removeItem('auth_token');
-        delete axios.defaults.headers.common['Authorization'];
       }
-    }
-  }
+    },
+  },
 });

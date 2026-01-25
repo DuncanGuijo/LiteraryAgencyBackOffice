@@ -43,6 +43,7 @@ import { UserService } from '@/domains/users/services/UserService'
 import type { LoginDTO } from '@/domains/users/dtos/LoginDTO'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.store';
+import { UserDTO } from '../dtos/UserDTO'
 
 const auth = useAuthStore();
 const route = useRoute()
@@ -74,10 +75,14 @@ async function onSubmit(): Promise<void> {
 
   loading.value = true;
   try {
-    const response = await UserService.login({ ...form });
-
-    auth.setToken(response.token);
-    auth.setUser(response.user);
+      const response = await UserService.login({ ...form });
+      const user = new UserDTO(
+      response.user.id,
+      response.user.name,
+      response.user.email,
+      // response.user.avatarFile ?? null
+    )
+    auth.setAuth(response.token, user)
 
     router.push('/');
   } catch (err: any) {

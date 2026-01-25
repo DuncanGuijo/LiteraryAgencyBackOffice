@@ -19,7 +19,8 @@ Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     // Users
     Route::get('/user/{id}', [UserController::class, 'get'])->whereNumber('id');
-    Route::get('/logout', [UserController::class, 'logout']);
+    Route::put('/user/{id}', [UserController::class, 'update'])->whereNumber('id');
+    Route::post('/logout', [UserController::class, 'logout']);
 
     // Books
     Route::get('/books', [BookController::class, 'index']);

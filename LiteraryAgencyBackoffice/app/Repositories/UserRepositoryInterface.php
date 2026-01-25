@@ -13,4 +13,6 @@ interface UserRepositoryInterface {
     public function find(int $id): UserDTO;
     
     public function findModelByEmail(string $email): User;    
+
+    public function update(int $id, UserDTO $userDTO): UserDTO;
 }

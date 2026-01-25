@@ -26,4 +26,19 @@ final Class UserRepositoryEloquent implements UserRepositoryInterface {
     public function findModelByEmail(string $email): User {
         return User::where("email", $email)->first();
     }
+
+    public function update(int $id, UserDTO $userDTO): UserDTO {
+        $user = User::findOrFail($id);
+        $userData = $userDTO->toArray();
+
+        foreach ($userData as $key => $value) {
+            if ($value !== null) {
+                $user->$key = $value;
+            }
+        }
+
+        $user->save();
+
+        return UserDTO::fromModel($user);
+    }
 }

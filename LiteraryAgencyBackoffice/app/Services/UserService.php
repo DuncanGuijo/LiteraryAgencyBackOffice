@@ -26,6 +26,16 @@ final class UserService
     }
 
     /**
+     * Summary of update
+     * @param UserDTO $DTO
+     * @return UserDTO
+     */
+    public function update(int $id, UserDTO $DTO): UserDTO
+    {
+        return $this->userRepository->update($id, $DTO);
+    }
+
+    /**
      * Summary of login
      * @param object $request
      * @param User $userModel

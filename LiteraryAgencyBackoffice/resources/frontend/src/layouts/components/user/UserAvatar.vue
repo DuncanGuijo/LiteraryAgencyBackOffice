@@ -5,8 +5,8 @@
       class="w-10 h-10 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 cursor-pointer hover:ring-2 hover:ring-indigo-400 transition"
     >
       <img
-        v-if="user?.avatarUrl"
-        :src="user.avatarUrl"
+        v-if="user?.avatarFile"
+        :src="user.avatarFile"
         alt="User avatar"
         class="w-full h-full object-cover"
       />
@@ -25,14 +25,12 @@
             class="w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center gap-2"
             @click="editProfile"
           >
-            <span class="material-icons text-base">edit</span>
             Edit Profile
           </button>
           <button
             class="w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center gap-2"
             @click="logout"
           >
-            <span class="material-icons text-base">logout</span>
             Logout
           </button>
         </div>
@@ -66,12 +64,12 @@ const toggleDropdown = () => {
 
 const editProfile = () => {
   dropdownOpen.value = false
-  router.push('/profile/edit')
+  router.push('/profile')
 }
 
 const logout = async () => {
   dropdownOpen.value = false
   await auth.logout()
-  router.push('/login')
+  router.push('/auth/login')
 }
 </script>

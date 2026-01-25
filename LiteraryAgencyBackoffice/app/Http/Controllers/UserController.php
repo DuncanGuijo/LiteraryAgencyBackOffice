@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\DTOS\UserDTO;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 final class UserController extends Controller{
 
@@ -54,9 +56,11 @@ final class UserController extends Controller{
      * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $request): JsonResponse 
+    public function logout(): JsonResponse 
     {
-        $token = $request->user()->token();
+        $user = Auth::user();
+        
+        $token = $user->token();
 
         $token->revoke();
 
@@ -81,12 +85,21 @@ final class UserController extends Controller{
 
     /**
      * Summary of update
-     * @param Request $request
+     * @param UpdateUserRequest $request
      * @param int $id
      * @return void
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
-        // TO DO
+        $DTO = new UserDTO(
+            null,
+            $request->input('name'),
+            $request->input('email'),
+            $request->input('password')
+        );
+
+        $user = $this->userService->update($id, $DTO);
+
+        return response()->json($user);
     }
 }
