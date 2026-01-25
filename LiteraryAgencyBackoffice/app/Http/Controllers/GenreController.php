@@ -89,7 +89,7 @@ final class GenreController extends Controller
             'perpage' => 'nullable|int|min:1'
         ]);
 
-        $books = $this->GenreService->getPaginated($request->pag ?? 1, $request->perpage ?? 15);
+        $books = $this->GenreService->getPaginated((int) $request->pag ?? 1, (int) $request->perpage ?? 15);
 
         return response()->json($books, 200);
     }
