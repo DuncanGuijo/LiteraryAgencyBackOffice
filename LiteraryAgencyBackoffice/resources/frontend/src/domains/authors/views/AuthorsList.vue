@@ -1,6 +1,5 @@
 <template class="list-page">
-
-  <h1 class="text-3xl font-bold mb-6 text-gray-800">Agencies</h1>
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Authors</h1>
 
   <section class="table-wrapper bg-gray-50 shadow-md rounded-lg overflow-hidden border border-gray-200">
     <table class="min-w-full divide-y divide-gray-200">
@@ -13,41 +12,42 @@
           <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Address</th>
         </tr>
       </thead>
-
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr v-for="agency in agencies"
-         :key="agency.id"
-         class="odd:bg-gray-50 even:bg-gray-100 hover:bg-indigo-50 transition-colors duration-200"
+
+        <tr
+          v-for="author in authors"
+          :key="author.id ?? author.first_name"
+          class="odd:bg-gray-50 even:bg-gray-100 
+          hover:bg-indigo-50 transition-colors duration-200"
         >
-          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ agency.id }}</td>
-          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ agency.name }}</td>
-          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ agency.email }}</td>
-          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ agency.phone }}</td>
-          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ agency.address }}</td>
+          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ author.id }}</td>
+          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ author.first_name }} {{ author.last_name }}</td>
+          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ author.email }}</td>
+          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">{{ author.phone }}</td>
+          <td class="px-6 py-3 text-sm font-semibold" :class="author.is_active === 1 ? 'text-green-600' : 'text-red-500'">{{ author.is_active ? 'Yes' : 'No' }}</td>
         </tr>
       </tbody>
-    </table>
-    <div class="m-2">
-      <Pagination :meta="meta" @next="nextPage" @prev="prevPage" />
-    </div>
-  </section>  
-  
+  </table>
+  <div class="m-2">
+    <Pagination :meta="meta" @next="nextPage" @prev="prevPage" />
+  </div>
+  </section>
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from 'vue';
-import { AgencyService } from '@/domains/agencies/services/AgencyService';
+import { AuthorService } from '@/domains/authors/services/AuthorService';
 import { formatDate } from '@/shared/utils/formatDate';
-import type { AgencyDTO } from '../dtos/AgencyDTO';
-import type { Meta } from '@/shared/types/Pagination';
+import type { AuthorDTO } from '../dtos/AuthorDTO';
 import Pagination from '@/layouts/components/tables/Pagination.vue';
+import type { Meta } from '@/shared/types/Pagination';
 
 export default {
   components: {
     Pagination
   },
   setup() {
-    const agencies = ref<AgencyDTO[]>([]);
+    const authors = ref<AuthorDTO[]>([]);
     const meta = ref<Meta>({
       current_page: 1,
       per_page: 5,
@@ -55,33 +55,33 @@ export default {
       last_page: 1,
     });
 
-    const loadAgencies = async () => {
+    const loadAuthors = async () => {
       try {
-        const res = await AgencyService.getAgencies(meta.value.current_page, meta.value.per_page);
-        agencies.value = res.data;
+        const res = await AuthorService.getAuthors(meta.value.current_page, meta.value.per_page);
+        authors.value = res.data;
         meta.value = res.meta;
       } catch (error) {
-        console.error('Failed to load agencies:', error);
+        console.error('Failed to load authors:', error);
       }
     };
 
     const nextPage = () => {
       if (meta.value.current_page < meta.value.last_page) {
         meta.value.current_page++;
-        loadAgencies();
+        loadAuthors();
       }
     };
 
     const prevPage = () => {
       if (meta.value.current_page > 1) {
         meta.value.current_page--;
-        loadAgencies();
+        loadAuthors();
       }
     };
 
-    onMounted(loadAgencies);
+    onMounted(loadAuthors);
     return {
-      agencies,
+      authors,
       meta,
       nextPage,
       prevPage,

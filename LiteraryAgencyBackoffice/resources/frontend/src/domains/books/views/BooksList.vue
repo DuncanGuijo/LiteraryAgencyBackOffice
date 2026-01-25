@@ -1,58 +1,54 @@
-<template>
-  <div class="p-6">
-    <h1 class="text-2xl font-semibold mb-4">Books</h1>
+<template class="list-page">    
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Books</h1>
 
-    <table class="min-w-full border-collapse border border-gray-200">
-      <thead class="bg-gray-100">
+  <section class="table-wrapper bg-gray-50 shadow-md rounded-lg overflow-hidden border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-linear-to-r from-indigo-200 to-indigo-100">
         <tr>
-          <th class="px-4 py-2 text-left">ID</th>
-          <th class="px-4 py-2 text-left">Title</th>
-          <th class="px-4 py-2 text-left">Author ID</th>
-          <th class="px-4 py-2 text-left">ISBN</th>
-          <th class="px-4 py-2 text-left">Active</th>
-          <th class="px-4 py-2 text-left">Publication Date</th>
-          <th class="px-4 py-2 text-left">Agencies</th>
-          <th class="px-4 py-2 text-left">Genres</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Title</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Author ID</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">ISBN</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Active</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Publication Date</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Agencies</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Genres</th>
+          <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="bg-white divide-y divide-gray-200">
         <tr
           v-for="book in books"
           :key="book.id ?? book.title"
-          class="border-b"
+          class="odd:bg-gray-50 even:bg-gray-100 hover:bg-indigo-50 transition-colors duration-200"
         >
-          <td class="px-4 py-2">{{ book.id }}</td>
-          <td class="px-4 py-2">{{ book.title }}</td>
-          <td class="px-4 py-2">{{ book.author_id }}</td>
-          <td class="px-4 py-2">{{ book.isbn }}</td>
-          <td class="px-4 py-2">{{ book.is_active === 1 ? 'Yes' : 'No' }}</td>
-          <td class="px-4 py-2">{{ book.publication_date ? formatDate(book.publication_date) : '-' }}</td>
-          <td class="px-4 py-2">{{ book.agencies_ids.join(', ') }}</td>
-          <td class="px-4 py-2">{{ book.genres.join(', ') }}</td>
+          <td class="px-6 py-3 text-sm font-medium text-indigo-700 hover:underline cursor-pointer">
+            {{ book.id }}
+          </td>
+          <td class="px-6 py-3 text-sm text-gray-800 font-semibold">{{ book.title }}</td>
+          <td class="px-6 py-3 text-sm text-gray-700">{{ book.author_id }}</td>
+          <td class="px-6 py-3 text-sm text-gray-700">{{ book.isbn }}</td>
+          <td class="px-6 py-3 text-sm font-semibold" :class="book.is_active === 1 ? 'text-green-600' : 'text-red-500'">
+            {{ book.is_active === 1 ? 'Yes' : 'No' }}
+          </td>
+          <td class="px-6 py-3 text-sm text-gray-700">{{ book.publication_date ? formatDate(book.publication_date) : '-' }}</td>
+          <td class="px-6 py-3 text-sm text-gray-700">{{ book.agencies_ids.join(', ') }}</td>
+          <td class="px-6 py-3 text-sm text-gray-700">{{ book.genres.join(', ') }}</td>
+          <td class="px-6 py-3 text-center">
+            <button class="text-indigo-600 hover:text-indigo-900 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h2m-1 1v6m-3 3h6" />
+              </svg>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <div class="flex justify-between items-center mt-4">
-      <button
-        class="px-4 py-2 bg-gray-300 text-black rounded disabled:opacity-50"
-        :disabled="meta.current_page <= 1"
-        @click="prevPage"
-      >
-        Previous
-      </button>
-
-      <span>Page {{ meta.current_page }} of {{ meta.last_page }}</span>
-
-      <button
-        class="px-4 py-2 bg-gray-300 text-black rounded disabled:opacity-50"
-        :disabled="meta.current_page >= meta.last_page"
-        @click="nextPage"
-      >
-        Next
-      </button>
+    <div class="m-2">
+      <Pagination :meta="meta" @next="nextPage" @prev="prevPage" />
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -60,15 +56,13 @@ import { ref, onMounted } from 'vue';
 import type { BookDTO } from '@/domains/books/dtos/BookDTO';
 import { BookService } from '@/domains/books/services/BookService';
 import { formatDate } from '@/shared/utils/formatDate';
-
-interface Meta {
-  current_page: number;
-  per_page: number;
-  total: number;
-  last_page: number;
-}
+import Pagination from '@/layouts/components/tables/Pagination.vue';
+import type { Meta } from '@/shared/types/Pagination';
 
 export default {
+  components: {
+    Pagination
+  },
   setup() {
     const books = ref<BookDTO[]>([]);
     const meta = ref<Meta>({
@@ -114,10 +108,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-table th,
-table td {
-  border: 1px solid #e5e7eb;
-}
-</style>
