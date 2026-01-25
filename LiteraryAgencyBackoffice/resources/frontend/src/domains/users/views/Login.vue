@@ -42,7 +42,9 @@ import { reactive, computed, ref } from 'vue'
 import { UserService } from '@/domains/users/services/UserService'
 import type { LoginDTO } from '@/domains/users/dtos/LoginDTO'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.store';
 
+const auth = useAuthStore();
 const route = useRoute()
 const successMessage = ref<string | null>(route.query.successMessage as string || null)
 const router = useRouter()
@@ -68,27 +70,29 @@ function validateForm() {
 }
 
 async function onSubmit(): Promise<void> {
-  if (!validateForm()) return
+  if (!validateForm()) return;
 
-  loading.value = true
+  loading.value = true;
   try {
-    const response = await UserService.login({ ...form })
-    localStorage.setItem('auth_token', response.token)
-    router.push('/')
+    const response = await UserService.login({ ...form });
+
+    auth.setToken(response.token);
+    auth.setUser(response.user);
+
+    router.push('/');
   } catch (err: any) {
     if (err.response?.data?.errors) {
-      Object.assign(errors, err.response.data.errors)
+      Object.assign(errors, err.response.data.errors);
     } else if (err.response?.data?.message) {
-      serverError.value = err.response.data.message
+      serverError.value = err.response.data.message;
     } else {
-      serverError.value = 'An unexpected error occurred'
+      serverError.value = 'An unexpected error occurred';
     }
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
-const isSubmitDisabled = computed(() => Object.keys(errors).length > 0 || loading.value)
 
 function inputClass(field: string) {
   return [
