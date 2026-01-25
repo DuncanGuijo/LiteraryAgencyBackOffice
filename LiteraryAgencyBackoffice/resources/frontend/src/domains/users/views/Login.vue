@@ -1,5 +1,4 @@
 <template>
-  <AuthLayout>
     <div class="mb-10">
       <h2 class="text-2xl font-semibold text-gray-900">Log In</h2>
       <p class="mt-2 text-sm text-gray-600">Access the agency management panel</p>
@@ -24,7 +23,6 @@
 
       <button
         type="submit"
-        :disabled="isSubmitDisabled"
         class="w-full rounded-md py-2.5 font-medium bg-slate-200 text-black hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
       >
         <span v-if="loading">Logging in...</span>
@@ -34,15 +32,13 @@
 
     <div class="mt-8 text-sm text-gray-600">
       Don't have an account?
-      <router-link to="/register" class="ml-1 font-medium text-slate-800 hover:underline">Sign up</router-link>
+      <router-link to="/auth/register" class="ml-1 font-medium text-slate-800 hover:underline">Sign up</router-link>
     </div>
-  </AuthLayout>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { reactive, computed, ref } from 'vue'
-import AuthLayout from '@/layouts/AuthLayout.vue'
 import { UserService } from '@/domains/users/services/UserService'
 import type { LoginDTO } from '@/domains/users/dtos/LoginDTO'
 import { useRouter } from 'vue-router'
@@ -78,8 +74,7 @@ async function onSubmit(): Promise<void> {
   try {
     const response = await UserService.login({ ...form })
     localStorage.setItem('auth_token', response.token)
-    // Redirigir a página principal de la app
-    router.push('/dashboard')
+    router.push('/')
   } catch (err: any) {
     if (err.response?.data?.errors) {
       Object.assign(errors, err.response.data.errors)

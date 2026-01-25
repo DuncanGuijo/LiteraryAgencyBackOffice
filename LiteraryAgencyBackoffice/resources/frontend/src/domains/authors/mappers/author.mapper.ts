@@ -1,1 +1,3 @@
-export function authorMapper(_data: any) { return {}; }
+export function AuthorMapper(_data: any) {
+  return {};
+}

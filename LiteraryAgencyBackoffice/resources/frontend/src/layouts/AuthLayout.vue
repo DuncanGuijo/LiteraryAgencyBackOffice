@@ -12,7 +12,7 @@
 
     <div class="flex items-center justify-center px-8">
       <div class="w-full max-w-lg">
-        <slot />
+        <router-view />
       </div>
     </div>
 

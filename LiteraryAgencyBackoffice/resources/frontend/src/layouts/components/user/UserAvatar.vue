@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-// ⚠️ Simulado por ahora
 const user = {
   name: 'Duncan',
   avatarUrl: null,

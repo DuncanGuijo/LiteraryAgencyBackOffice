@@ -1,5 +1,4 @@
 <template>
-  <AuthLayout>
     <!-- Header -->
     <div class="mb-10">
       <h2 class="text-2xl font-semibold text-gray-900">Create Account</h2>
@@ -60,7 +59,6 @@
       <!-- Submit Button -->
       <button
         type="submit"
-        :disabled="isSubmitDisabled"
         class="w-full rounded-md py-2.5 font-medium bg-slate-200 text-black hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
       >
         <span v-if="loading">Creating...</span>
@@ -72,12 +70,10 @@
       Already have an account?
       <router-link to="/login" class="ml-1 font-medium text-slate-800 hover:underline">Log in</router-link>
     </div>
-  </AuthLayout>
 </template>
 
 <script setup lang="ts">
 import { reactive, computed, ref } from 'vue'
-import AuthLayout from '@/layouts/AuthLayout.vue'
 import { http } from '@/api/http'
 import { useRouter } from 'vue-router'
 

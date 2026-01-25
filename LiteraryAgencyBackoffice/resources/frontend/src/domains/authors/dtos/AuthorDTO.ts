@@ -1,3 +1,8 @@
 export class AuthorDTO {
-  constructor(public id?: number, public firstName?: string, public lastName?: string) {}
+  id!: number;
+  first_name!: string;
+  last_name!: string;
+  email!: string;
+  phone!: string
+  is_active!: number;
 }

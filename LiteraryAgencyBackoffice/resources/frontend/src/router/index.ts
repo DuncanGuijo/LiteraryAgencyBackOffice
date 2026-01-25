@@ -9,6 +9,7 @@ import GenresList from '@/domains/genres/views/GenresList.vue';
 
 import Login from '@/domains/users/views/Login.vue';
 import Register from '@/domains/users/views/Register.vue';
+import AuthorsList from '@/domains/authors/views/AuthorsList.vue';
 
 const routes = [
   {
@@ -25,8 +26,9 @@ const routes = [
     component: AppLayout,
     children: [
       { path: '', redirect: '/books' },
-      { path: 'books', name: 'BooksList', component: BooksList },
       { path: 'agencies', name: 'AgenciesList', component: AgenciesList },
+      { path: 'authors', name: 'AuthorsList', component: AuthorsList },
+      { path: 'books', name: 'BooksList', component: BooksList },
       { path: 'genres', name: 'GenresList', component: GenresList },
     ],
   },
