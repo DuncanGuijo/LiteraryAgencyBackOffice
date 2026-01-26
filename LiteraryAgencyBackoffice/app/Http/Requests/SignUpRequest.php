@@ -36,7 +36,6 @@ class SignUpRequest extends FormRequest
 
             if ($user) {
                 $validator->errors()->add('email', "We couldn't process your request. Please try again or contact support.");
-                Log::info('Signup attempt with existing email: ' . $this->email);
             }
 
             if (strlen($this->password) < 6) {

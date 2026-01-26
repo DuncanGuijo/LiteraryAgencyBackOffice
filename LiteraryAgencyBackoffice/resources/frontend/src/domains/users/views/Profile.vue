@@ -75,11 +75,10 @@ import { UserService } from '@/domains/users/services/UserService';
 const router = useRouter();
 const auth = useAuthStore();
 
-// Inicializamos form con los datos actuales del usuario
 const form = reactive({
   name: auth.user?.name || '',
   email: auth.user?.email || '',
-  password: '',   // opcional, solo se envía si el usuario quiere cambiar
+  password: '',
 });
 
 const errors = reactive<Record<string, string>>({});
@@ -87,7 +86,6 @@ const serverError = ref('');
 const successMessage = ref('');
 const loading = ref(false);
 
-// Validación simple
 function validateForm() {
   Object.keys(errors).forEach(key => delete errors[key]);
   serverError.value = '';
@@ -112,6 +110,8 @@ async function onSubmit() {
   if (!validateForm()) return;
   loading.value = true;
 
+  console.log('Submitting profile update for', form.name, form.email);
+
   try {
     const payload: Record<string, any> = {
       name: form.name,
@@ -121,8 +121,9 @@ async function onSubmit() {
     if (form.password) payload.password = form.password;
 
     const updatedUser = await UserService.update(auth.user!.id, payload);
-    auth.setUser(updatedUser);
+    auth.setAuth(localStorage.getItem('auth_token')!, updatedUser);
     successMessage.value = 'Profile updated successfully!';
+
   } catch (err: any) {
     if (err.response?.data?.errors) {
       Object.assign(errors, err.response.data.errors);

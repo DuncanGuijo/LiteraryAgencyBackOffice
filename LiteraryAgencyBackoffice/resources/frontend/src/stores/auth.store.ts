@@ -22,7 +22,6 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       try {
         if (this.token) {
-          console.log('AuthStore: Logging out user');
           await UserService.logout();
         }
       } catch (e) {

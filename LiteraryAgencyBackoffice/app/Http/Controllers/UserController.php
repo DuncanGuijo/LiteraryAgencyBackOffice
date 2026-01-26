@@ -33,7 +33,6 @@ final class UserController extends Controller{
         $user = $this->userService->create($DTO);
 
         return response()->json($user, 201);
-        
     }
 
     /**
